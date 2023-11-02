@@ -25,6 +25,7 @@ public class MenuManager : MonoBehaviour
     public Slider musicSlider;
     public Slider volumeSlider;
 
+    private bool isItitCompleted = false;
     [Header("Для сцены уровня")]
     public GameObject rulesPanel;
     public GameObject winPanel;
@@ -43,14 +44,13 @@ public class MenuManager : MonoBehaviour
     {
         if (S == null)
             S = this;
-        Init();
     }
 
     public void Init()
     {
         soundVolume = SaveController.S.GetVolume();
         musicVolume = SaveController.S.GetMusic();
-
+        AudioManager.S.Init();
         if (isMenu)
         {
             if (SaveController.S.GetVolumeOn() == 0)
@@ -65,14 +65,15 @@ public class MenuManager : MonoBehaviour
             MenuCreater.S.Init();
         }
         SetLanguage(SaveController.S.GetLanguage());
+        isItitCompleted = true;
     }
 
     //методы для сцены меню
-
+    #region Menu
     public void ShowSettings()
     {
         settingsPanel.SetActive(true);
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
     }
     public void ShowUpdatePanel()
     {
@@ -81,12 +82,12 @@ public class MenuManager : MonoBehaviour
     public void HideSettings()
     {
         settingsPanel.SetActive(false);
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
     }
     public void HideUpdatePanel()
     {
         updatePanel.SetActive(false);
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
     }
     //public void DownloadUpdates()
     //{
@@ -100,8 +101,9 @@ public class MenuManager : MonoBehaviour
             soundOnImage.SetActive(false);
             soundOffImage.SetActive(true);
             soundOn = false;
-            SaveController.S.SetVolumeOn(0);
-            AudioManager._audioManager.SetVolume(0);
+            if(isItitCompleted)
+                SaveController.S.SetVolumeOn(0);
+            AudioManager.S.SetVolume(0);
             volumeSlider.value = 0;
         }
         else
@@ -109,8 +111,9 @@ public class MenuManager : MonoBehaviour
             soundOnImage.SetActive(true);
             soundOffImage.SetActive(false);
             soundOn = true;
-            SaveController.S.SetVolumeOn(1);
-            AudioManager._audioManager.SetVolume(soundVolume);
+            if (isItitCompleted)
+                SaveController.S.SetVolumeOn(1);
+            AudioManager.S.SetVolume(soundVolume);
             volumeSlider.value = soundVolume;
         }
     }
@@ -121,8 +124,9 @@ public class MenuManager : MonoBehaviour
             musicOnImage.SetActive(false);
             musicOffImage.SetActive(true);
             musicOn = false;
-            SaveController.S.SetMusicOn(0);
-            AudioManager._audioManager.SetMusicVolume(0);
+            if (isItitCompleted)
+                SaveController.S.SetMusicOn(0);
+            AudioManager.S.SetMusicVolume(0);
             musicSlider.value = 0;
         }
         else
@@ -130,8 +134,9 @@ public class MenuManager : MonoBehaviour
             musicOnImage.SetActive(true);
             musicOffImage.SetActive(false);
             musicOn = true;
-            SaveController.S.SetMusicOn(1);
-            AudioManager._audioManager.SetMusicVolume(musicVolume);
+            if (isItitCompleted)
+                SaveController.S.SetMusicOn(1);
+            AudioManager.S.SetMusicVolume(musicVolume);
             musicSlider.value = musicVolume;
         }
     }
@@ -146,14 +151,16 @@ public class MenuManager : MonoBehaviour
             else if (!soundOn && val != 0) //если звук выключен, а мы его включаем
             {
                 soundVolume = val;
-                SaveController.S.SetVolume(val);
+                if (isItitCompleted)
+                    SaveController.S.SetVolume(val);
                 SwitchSound();
             }
             else //если звук включен и мы его меняем
             {
                 soundVolume = val;
-                SaveController.S.SetVolume(val);
-                AudioManager._audioManager.SetVolume(val);
+                if (isItitCompleted)
+                    SaveController.S.SetVolume(val);
+                AudioManager.S.SetVolume(val);
             }
         }
     }
@@ -167,14 +174,16 @@ public class MenuManager : MonoBehaviour
             else if (!musicOn && val != 0) //если звук выключен, а мы его включаем
             {
                 musicVolume = val;
-                SaveController.S.SetMusic(val);
+                if (isItitCompleted)
+                    SaveController.S.SetMusic(val);
                 SwitchMusic();
             }
             else //если звук включен и мы его меняем
             {
                 musicVolume = val;
-                SaveController.S.SetMusic(val);
-                AudioManager._audioManager.SetMusicVolume(val);
+                if (isItitCompleted)
+                    SaveController.S.SetMusic(val);
+                AudioManager.S.SetMusicVolume(val);
             }
         }
     }
@@ -194,23 +203,24 @@ public class MenuManager : MonoBehaviour
             englishLangLightning.SetActive(true);
             russianLangLightning.SetActive(false);
         }
-        SaveController.S.SetLanguage(lang);
+        if (isItitCompleted)
+            SaveController.S.SetLanguage(lang);
     }
-
+    #endregion
     //методы для сцены уровня
-
+    #region Level
     public void ShowRules()
     {
         rulesPanel.SetActive(true);
         GetComponent<GameManager>().isPlaying = false;
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
         panelsIsActive = true;
     }
     public void HideRules()
     {
         rulesPanel.SetActive(false);
         GetComponent<GameManager>().isPlaying = true;
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
         panelsIsActive = false;
     }
     public void ShowWaitPanel()
@@ -223,14 +233,14 @@ public class MenuManager : MonoBehaviour
     {
         waitPanel.SetActive(false);
         GetComponent<GameManager>().isPlaying = true;
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
         panelsIsActive = false;
     }
     public void ShowWinPanel()
     {
         winPanel.SetActive(true);
         GetComponent<GameManager>().isPlaying = false;
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
     }
     public void ContinuePlay()
     {
@@ -238,39 +248,39 @@ public class MenuManager : MonoBehaviour
         SaveController.S.SetCurrentLevel(GetComponent<GameManager>().currentLvl + 1);
         if (GetComponent<GameManager>().currentLvl == 99)
         {
-            SceneManager.LoadScene(0);
+            DataManager.S.LoadMenuScene();
         }
         else
         {
-            //AdvertismentManager.S.ShowInterstitial();
-            SceneManager.LoadScene(1);
+            AdvertismentManager.S.ShowInterstitial();
+            SceneManager.LoadScene(2);
         }
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
     }
     public void ShowHintPanel()
     {
         hintPanel.SetActive(true);
         GetComponent<GameManager>().isPlaying = false;
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
         panelsIsActive = true;
     }
     public void HideHintPanel()
     {
         hintPanel.SetActive(false);
         GetComponent<GameManager>().isPlaying = true;
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
         panelsIsActive = false;
     }
     public void ShowHint()
     {
         GetComponent<GameManager>().isPlaying = true;
         hintPanel.SetActive(false);
-        //AdvertismentManager.S.ShowRevardedAd();
+        AdvertismentManager.S.ShowRevarded(() => GetComponent<GameManager>().ShowNewHint());
     }
     public void BackToMenu()
     {
-        AudioManager._audioManager.PlayClick();
-        Destroy(AudioManager._audioManager.gameObject);
-        SceneManager.LoadScene(0);
+        AudioManager.S.PlayClick();
+        DataManager.S.LoadMenuScene();
     }
+    #endregion
 }

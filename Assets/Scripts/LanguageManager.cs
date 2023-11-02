@@ -57,7 +57,7 @@ public class LanguageManager : MonoBehaviour
             }
         }
 
-        else if (lang == "en")
+        else
         {
             if (isMenu)
             {

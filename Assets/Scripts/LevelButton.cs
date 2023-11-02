@@ -24,8 +24,8 @@ public class LevelButton : MonoBehaviour
     }
     public void StartLevel()
     {
-        AudioManager._audioManager.PlayClick();
+        AudioManager.S.PlayClick();
         Camera.main.GetComponent<SaveController>().SetCurrentLevel(value);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }

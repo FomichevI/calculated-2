@@ -38,7 +38,7 @@ public class Finish : MonoBehaviour
             downConnection.SetActive(true);
             lightning.SetActive(true);
             sparksPS.SetActive(true);
-            AudioManager._audioManager.PlayCorrect();
+            AudioManager.S.PlayCorrect();
         }
     }
 
@@ -50,7 +50,7 @@ public class Finish : MonoBehaviour
             innerSquareImg.color = redCol;
             downConnection.SetActive(true);
             lightning.SetActive(true);
-            AudioManager._audioManager.PlayIncorrect();
+            AudioManager.S.PlayIncorrect();
         }
     }
 

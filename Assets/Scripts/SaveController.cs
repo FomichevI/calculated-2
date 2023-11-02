@@ -12,7 +12,6 @@ public class SaveController : MonoBehaviour
     {
         if (S == null)
             S = this;
-        Init();
     }
 
     public void Init()
@@ -68,19 +67,19 @@ public class SaveController : MonoBehaviour
         }
     }
 
-    //public void LoadData(PlayerData data)
-    //{
-    //    saveX = new XmlDocument();
-    //    saveX.Load(Application.persistentDataPath + "/SaveXML.xml");
-    //    XmlNodeList nodeList = saveX.SelectNodes("save");
-    //    nodeList[0].Attributes["maxLevel"].Value = data.MaxLevel.ToString();
-    //    nodeList[0].Attributes["volume"].Value = data.VolumeLevel.ToString();
-    //    nodeList[0].Attributes["music"].Value = data.MusicLevel.ToString();
-    //    nodeList[0].Attributes["language"].Value = data.Language;
-    //    nodeList[0].Attributes["volumeOn"].Value = (data.VolumeOn ? 1 : 0).ToString();
-    //    nodeList[0].Attributes["musicOn"].Value = (data.MusicOn ? 1 : 0).ToString();
-    //    saveX.Save(Application.persistentDataPath + "/SaveXML.xml");
-    //}
+    public void LoadData(PlayerData data)
+    {
+        saveX = new XmlDocument();
+        saveX.Load(Application.persistentDataPath + "/SaveXML.xml");
+        XmlNodeList nodeList = saveX.SelectNodes("save");
+        nodeList[0].Attributes["maxLevel"].Value = data.MaxLevel.ToString();
+        nodeList[0].Attributes["volume"].Value = data.VolumeLevel.ToString();
+        nodeList[0].Attributes["music"].Value = data.MusicLevel.ToString();
+        nodeList[0].Attributes["language"].Value = data.Language;
+        nodeList[0].Attributes["volumeOn"].Value = (data.VolumeOn ? 1 : 0).ToString();
+        nodeList[0].Attributes["musicOn"].Value = (data.MusicOn ? 1 : 0).ToString();
+        saveX.Save(Application.persistentDataPath + "/SaveXML.xml");
+    }
 
     public void SetCurrentLevel(int level)
     {
@@ -100,9 +99,7 @@ public class SaveController : MonoBehaviour
             if (int.Parse(nodeList[0].Attributes["maxLevel"].Value) < level)
                 nodeList[0].Attributes["maxLevel"].Value = level.ToString();
             saveX.Save(Application.persistentDataPath + "/SaveXML.xml");
-//#if UNITY_WEBGL
-//            YandexSaveController.S.SetMaxLevel(level);
-//#endif
+            DataManager.S.SetMaxLevel(level);
         }
     }
     public void SetVolume(float volume)
@@ -112,9 +109,7 @@ public class SaveController : MonoBehaviour
         XmlNodeList nodeList = saveX.SelectNodes("save");
         nodeList[0].Attributes["volume"].Value = volume.ToString();
         saveX.Save(Application.persistentDataPath + "/SaveXML.xml");
-//#if UNITY_WEBGL
-//        YandexSaveController.S.SetVolume(volume);
-//#endif
+        DataManager.S.SetVolume(volume);
     }
     public void SetMusic(float volume)
     {
@@ -124,9 +119,7 @@ public class SaveController : MonoBehaviour
         XmlNodeList nodeList = saveX.SelectNodes("save");
         nodeList[0].Attributes["music"].Value = volume.ToString();
         saveX.Save(Application.persistentDataPath + "/SaveXML.xml");
-//#if UNITY_WEBGL
-//        YandexSaveController.S.SetMusic(volume);
-//#endif
+        DataManager.S.SetMusic(volume);
     }
     //public void SetTheme(int themeNum)
     //{
@@ -143,9 +136,7 @@ public class SaveController : MonoBehaviour
         XmlNodeList nodeList = saveX.SelectNodes("save");
         nodeList[0].Attributes["language"].Value = lang;
         saveX.Save(Application.persistentDataPath + "/SaveXML.xml");
-//#if UNITY_WEBGL
-//        YandexSaveController.S.SetLanguade(lang);
-//#endif
+        DataManager.S.SetLanguage(lang);
     }
     public int GetMaxLevel()
     {
@@ -189,9 +180,7 @@ public class SaveController : MonoBehaviour
         XmlNodeList nodeList = saveX.SelectNodes("save");
         nodeList[0].Attributes["volumeOn"].Value = isOn.ToString();
         saveX.Save(Application.persistentDataPath + "/SaveXML.xml");
-//#if UNITY_WEBGL
-//        YandexSaveController.S.SetVolumeOn(isOn == 1? true: false);
-//#endif
+        DataManager.S.SetVolumeOn(isOn == 1? true: false);
     }
     public void SetMusicOn(int isOn)
     {
@@ -200,9 +189,7 @@ public class SaveController : MonoBehaviour
         XmlNodeList nodeList = saveX.SelectNodes("save");
         nodeList[0].Attributes["musicOn"].Value = isOn.ToString();
         saveX.Save(Application.persistentDataPath + "/SaveXML.xml");
-//#if UNITY_WEBGL
-//        YandexSaveController.S.SetMusicOn(isOn == 1 ? true : false);
-//#endif
+        DataManager.S.SetMusicOn(isOn == 1 ? true : false);
     }
     public int GetVolumeOn()
     {
@@ -224,7 +211,15 @@ public class SaveController : MonoBehaviour
         saveX.Load(Application.persistentDataPath + "/SaveXML.xml");
         XmlNodeList nodeList = saveX.SelectNodes("save");
         return nodeList[0].Attributes["language"].Value;
-
     }
+}
 
+public class PlayerData
+{
+    public int MaxLevel = 1;
+    public float VolumeLevel = 0.5f;
+    public float MusicLevel = 0.5f;
+    public string Language = "ru";
+    public bool VolumeOn = true; 
+    public bool MusicOn = true;
 }

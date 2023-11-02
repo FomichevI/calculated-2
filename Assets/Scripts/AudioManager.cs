@@ -3,23 +3,25 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager _audioManager;
+    public static AudioManager S;
     public AudioClip[] audioClips;
 
     public AudioSource musicAS;
     public AudioSource clickAS;
-
 
     /// Нумерация звуков:
     /// 0 - кнопка
     /// 1 - соединение клеток
     /// 2 - верно
     /// 3 - неверно
-    private void Start()
-    {
-        _audioManager = this;
-        DontDestroyOnLoad(gameObject);
 
+    private void Awake()
+    {
+        if (S == null)
+            S = this;
+    }
+    public void Init()
+    {
         if (Camera.main.GetComponent<SaveController>().GetVolumeOn() == 0)
             clickAS.volume = 0;
         else
@@ -54,5 +56,13 @@ public class AudioManager : MonoBehaviour
     public void PlayIncorrect()
     {
         clickAS.PlayOneShot(audioClips[3]);
+    }
+    public void StopAllSounds()
+    {
+        musicAS.Stop();        
+    }
+    public void StartAllSounds()
+    {
+        musicAS.Play();
     }
 }

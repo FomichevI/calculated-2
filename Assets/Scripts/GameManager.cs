@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
             isPlaying = false;
             Invoke("ContinuePlay", 2.3f);
         }
+        GetComponent<MenuManager>().SetLanguage(SaveController.S.GetLanguage());
     }
 
     private void ContinuePlay()
@@ -134,7 +135,7 @@ public class GameManager : MonoBehaviour
                         SetCounterText();
                         SetPossibleMoves();
 
-                        AudioManager._audioManager.PlayConnection();
+                        AudioManager.S.PlayConnection();
                     }
                     //логика для движения в обратную сторону 
                     else if (commitMoves.Count >= 1 && commitMoves[commitMoves.Count - 1] == hit2D.collider.GetComponent<Square>())
@@ -149,7 +150,7 @@ public class GameManager : MonoBehaviour
                         SetCounterText();
                         SetPossibleMoves();
 
-                        AudioManager._audioManager.PlayConnection();
+                        AudioManager.S.PlayConnection();
                     }
                 }
                 else if(hit2D.collider.gameObject.tag == "Finish")
@@ -229,7 +230,7 @@ public class GameManager : MonoBehaviour
             lastHintSquare = square;
             lastHintSquare.isHind = true;
             currentHint += 1;
-            AudioManager._audioManager.PlayCorrect();
+            AudioManager.S.PlayCorrect();
         }
     }
 
