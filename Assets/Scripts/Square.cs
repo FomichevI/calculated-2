@@ -55,7 +55,17 @@ public class Square : MonoBehaviour
             supportText.text = value.ToString();
         }
         else
+        {
             SetCenterColor("start");
+            if (SaveController.S.GetLanguage() == "ru")
+            {
+                mainText.text = supportText.text = "СТАРТ";
+            }
+            else
+            {
+                mainText.text = supportText.text = "START";
+            }
+        }
     }
 
     public void ShowLightning()

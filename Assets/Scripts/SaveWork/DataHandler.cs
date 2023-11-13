@@ -31,4 +31,8 @@ public abstract class DataHandler : MonoBehaviour
     {
         Debug.Log("Начинаем сохранение данных игрока");
     }
+    public virtual string GetPlayerLanguage()
+    {
+        return null;
+    }
 }

@@ -286,7 +286,7 @@ public class GameManager : MonoBehaviour
                     int line = int.Parse(nodeX.Attributes["line"].Value);
                     //настраиваем позицию
                     square.transform.SetParent(bGTrans);
-                    Vector3 pos = new Vector3((-270 + culumn * 270), (360 - line * 270), 0);
+                    Vector3 pos = new Vector3((-320 + culumn * 320), (360 - line * 320), 0);
                     square.transform.localScale = Vector3.one;
                     square.transform.localPosition = pos;
                     squaresMat[culumn, line] = square.GetComponent<Square>();
@@ -301,7 +301,7 @@ public class GameManager : MonoBehaviour
                     int line = int.Parse(nodeX.Attributes["line"].Value);
                     //настраиваем позицию
                     square.transform.SetParent(bGTrans);
-                    Vector3 pos = new Vector3((-270 + culumn * 270), (360 - line * 270), 0);
+                    Vector3 pos = new Vector3((-320 + culumn * 320), (360 - line * 320), 0);
                     square.transform.localScale = Vector3.one;
                     square.transform.localPosition = pos;
                     startSqare = square.GetComponent<Square>();
@@ -317,7 +317,7 @@ public class GameManager : MonoBehaviour
                     int culumn = int.Parse(nodeX.Attributes["culumn"].Value);
                     //настраиваем позицию
                     square.transform.SetParent(bGTrans);
-                    Vector3 pos = new Vector3((-270 + culumn * 270), 615, 1);
+                    Vector3 pos = new Vector3((-320 + culumn * 320), 680, 1);
                     square.transform.localScale = Vector3.one;
                     square.transform.localPosition = pos;
                     finishSqare = square.GetComponent<Finish>();
@@ -334,7 +334,7 @@ public class GameManager : MonoBehaviour
                     int line = int.Parse(nodeX.Attributes["line"].Value);
                     //настраиваем позицию
                     square.transform.SetParent(bGTrans);
-                    Vector3 pos = new Vector3((-270 + culumn * 270), (360 - line * 270), 0);
+                    Vector3 pos = new Vector3((-320 + culumn * 320), (360 - line * 320), 0);
                     square.transform.localScale = Vector3.one;
                     square.transform.localPosition = pos;
                 }

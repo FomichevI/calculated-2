@@ -66,6 +66,7 @@ public class MenuManager : MonoBehaviour
         }
         SetLanguage(SaveController.S.GetLanguage());
         isItitCompleted = true;
+        SplashScreen.S.Hide();
     }
 
     //методы для сцены меню
@@ -151,15 +152,11 @@ public class MenuManager : MonoBehaviour
             else if (!soundOn && val != 0) //если звук выключен, а мы его включаем
             {
                 soundVolume = val;
-                if (isItitCompleted)
-                    SaveController.S.SetVolume(val);
                 SwitchSound();
             }
             else //если звук включен и мы его меняем
             {
                 soundVolume = val;
-                if (isItitCompleted)
-                    SaveController.S.SetVolume(val);
                 AudioManager.S.SetVolume(val);
             }
         }
@@ -174,15 +171,11 @@ public class MenuManager : MonoBehaviour
             else if (!musicOn && val != 0) //если звук выключен, а мы его включаем
             {
                 musicVolume = val;
-                if (isItitCompleted)
-                    SaveController.S.SetMusic(val);
                 SwitchMusic();
             }
             else //если звук включен и мы его меняем
             {
                 musicVolume = val;
-                if (isItitCompleted)
-                    SaveController.S.SetMusic(val);
                 AudioManager.S.SetMusicVolume(val);
             }
         }
@@ -205,6 +198,13 @@ public class MenuManager : MonoBehaviour
         }
         if (isItitCompleted)
             SaveController.S.SetLanguage(lang);
+    }
+    public void SaveVolumes()
+    {
+        if (isItitCompleted)
+        {
+            SaveController.S.SetVolumes(musicVolume, soundVolume);
+        }
     }
     #endregion
     //методы для сцены уровня
@@ -283,4 +283,8 @@ public class MenuManager : MonoBehaviour
         DataManager.S.LoadMenuScene();
     }
     #endregion
+    public void PlayClick()
+    {
+        AudioManager.S.PlayClick();
+    }
 }

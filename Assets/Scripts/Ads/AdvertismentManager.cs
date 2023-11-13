@@ -11,6 +11,7 @@ public class AdvertismentManager : MonoBehaviour
     [SerializeField] private float _secondsBetweenInterstitial = 180;
     private float _lastShowInterstitial = 0;
     private Action _onRevarded;
+    private bool _isRevarded = false;
 
     private void Awake()
     {
@@ -47,13 +48,16 @@ public class AdvertismentManager : MonoBehaviour
             Debug.Log("Time to next Interstitial: " + (_secondsBetweenInterstitial - (Time.time - _lastShowInterstitial)));
         }
     }
-    public void ContinuePlaySound()
+    public void ContinuePlay()
     {
         AudioManager.S.StartAllSounds();
+        if(_isRevarded)
+            _onRevarded?.Invoke();
+        _onRevarded = null;
+        _isRevarded = false;
     }
     public void Revard()
     {
-        _onRevarded?.Invoke();
-        _onRevarded = null;
+        _isRevarded = true;
     }
 }

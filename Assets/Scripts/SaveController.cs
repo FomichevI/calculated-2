@@ -112,14 +112,24 @@ public class SaveController : MonoBehaviour
         DataManager.S.SetVolume(volume);
     }
     public void SetMusic(float volume)
-    {
-        
+    {        
         saveX = new XmlDocument();
         saveX.Load(Application.persistentDataPath + "/SaveXML.xml");
         XmlNodeList nodeList = saveX.SelectNodes("save");
         nodeList[0].Attributes["music"].Value = volume.ToString();
         saveX.Save(Application.persistentDataPath + "/SaveXML.xml");
         DataManager.S.SetMusic(volume);
+    }
+    public void SetVolumes(float musicVolume,  float soundsVolume)
+    {
+        saveX = new XmlDocument();
+        saveX.Load(Application.persistentDataPath + "/SaveXML.xml");
+        XmlNodeList nodeList = saveX.SelectNodes("save");
+        nodeList[0].Attributes["music"].Value = musicVolume.ToString();
+        nodeList[0].Attributes["volume"].Value = soundsVolume.ToString();
+        saveX.Save(Application.persistentDataPath + "/SaveXML.xml");
+        DataManager.S.SetVolumes(musicVolume, soundsVolume);
+
     }
     //public void SetTheme(int themeNum)
     //{
@@ -131,6 +141,8 @@ public class SaveController : MonoBehaviour
     //}
     public void SetLanguage(string lang)
     {
+        if (lang == null)
+            return;
         saveX = new XmlDocument();
         saveX.Load(Application.persistentDataPath + "/SaveXML.xml");
         XmlNodeList nodeList = saveX.SelectNodes("save");

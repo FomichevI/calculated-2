@@ -22,14 +22,7 @@ public class AudioManager : MonoBehaviour
     }
     public void Init()
     {
-        if (Camera.main.GetComponent<SaveController>().GetVolumeOn() == 0)
-            clickAS.volume = 0;
-        else
-            clickAS.volume = Camera.main.GetComponent<SaveController>().GetVolume();
-        if (Camera.main.GetComponent<SaveController>().GetMusicOn() == 0)
-            musicAS.volume = 0;
-        else
-            musicAS.volume = Camera.main.GetComponent<SaveController>().GetMusic(); // ****************************************
+        StartAllSounds();
     }
 
     public void SetVolume(float volume)
@@ -59,10 +52,18 @@ public class AudioManager : MonoBehaviour
     }
     public void StopAllSounds()
     {
-        musicAS.Stop();        
+        musicAS.volume = clickAS.volume = 0;
+        
     }
     public void StartAllSounds()
     {
-        musicAS.Play();
+        if (Camera.main.GetComponent<SaveController>().GetVolumeOn() == 0)
+            clickAS.volume = 0;
+        else
+            clickAS.volume = Camera.main.GetComponent<SaveController>().GetVolume();
+        if (Camera.main.GetComponent<SaveController>().GetMusicOn() == 0)
+            musicAS.volume = 0;
+        else
+            musicAS.volume = Camera.main.GetComponent<SaveController>().GetMusic();
     }
 }

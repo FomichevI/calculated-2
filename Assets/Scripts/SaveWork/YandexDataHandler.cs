@@ -8,9 +8,13 @@ public class YandexDataHandler : DataHandler
     [DllImport("__Internal")]
     private static extern void InitPlayer();
     [DllImport("__Internal")]
+    private static extern void InitYandex();
+    [DllImport("__Internal")]
     private static extern void SaveExtern(string data);
     [DllImport("__Internal")]
     private static extern void LoadExtern();
+    [DllImport("__Internal")]
+    private static extern string GetLanguage();
 
     private bool _isSdkInit = false;
 
@@ -21,6 +25,7 @@ public class YandexDataHandler : DataHandler
     }
     private IEnumerator Init()
     {
+        InitYandex();
         while (!_isSdkInit)
         {
             yield return new WaitForSeconds(.1f);
@@ -67,5 +72,11 @@ public class YandexDataHandler : DataHandler
         base.SavePlayerData();
         string jsonString = JsonUtility.ToJson(CurrentPlayerData);
         SaveExtern(jsonString);
+    }
+    public override string GetPlayerLanguage()
+    {
+        string lang = GetLanguage();
+        Debug.Log("язык игрока получен: " + lang);
+        return lang;
     }
 }

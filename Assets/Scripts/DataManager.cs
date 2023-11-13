@@ -17,7 +17,7 @@ public class DataManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
         _currentDataHandler = null;
 #endif
         SceneManager.LoadScene(1);
@@ -44,6 +44,7 @@ public class DataManager : MonoBehaviour
                     yield return new WaitForSeconds(.1f);
                 }
                 SaveController.S.LoadData(_currentDataHandler.CurrentPlayerData);
+                SaveController.S.SetLanguage(_currentDataHandler.GetPlayerLanguage());
                 _isGameFirstLoaded = true;
             }
         }
@@ -76,6 +77,15 @@ public class DataManager : MonoBehaviour
         if (_currentDataHandler != null && _currentDataHandler.CurrentPlayerData != null)
         {
             _currentDataHandler.CurrentPlayerData.MusicLevel = volume;
+            _currentDataHandler.SavePlayerData();
+        }
+    }
+    public void SetVolumes(float musicVolume, float soundsVolume)
+    {
+        if (_currentDataHandler != null && _currentDataHandler.CurrentPlayerData != null)
+        {
+            _currentDataHandler.CurrentPlayerData.MusicLevel = musicVolume;
+            _currentDataHandler.CurrentPlayerData.VolumeLevel = soundsVolume;
             _currentDataHandler.SavePlayerData();
         }
     }

@@ -12,6 +12,10 @@ mergeInto(LibraryManager.library, {
     initPlayer();
   },
 
+  InitYandex: function () {
+    initYaSdk();
+  },
+
   SaveExtern: function (data) {
     var dataString = UTF8ToString(data);
     var myObj = JSON.parse(dataString);
@@ -29,7 +33,7 @@ mergeInto(LibraryManager.library, {
     ysdk.adv.showFullscreenAdv({
       callbacks: {
         onClose: function(wasShown) {
-          myGameInstance.SendMessage('NonDestoyed', 'ContinuePlaySound');
+          myGameInstance.SendMessage('NonDestoyed', 'ContinuePlay');
         },
         onError: function(error) {
         }
@@ -49,7 +53,7 @@ mergeInto(LibraryManager.library, {
         },
         onClose: () => {
           console.log('Video ad closed.');
-          myGameInstance.SendMessage('NonDestoyed', 'ContinuePlaySound');
+          myGameInstance.SendMessage('NonDestoyed', 'ContinuePlay');
         }, 
         onError: (e) => {
           console.log('Error while open video ad:', e);
